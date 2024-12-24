@@ -27,6 +27,18 @@
             </column>
         </createTable>
 
+        <addForeignKeyConstraint baseColumnNames="room_id"
+                                 baseTableName="room_booking"
+                                 constraintName="fk_room_room_booking_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="room"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="room_booking"
+                                 constraintName="fk_user_room_booking_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="acme_user"/>
+
         <rollback>
             <dropTable tableName="room_booking" cascadeConstraints="true"/>
         </rollback>

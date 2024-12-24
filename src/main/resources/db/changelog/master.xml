@@ -9,4 +9,7 @@
     <include relativeToChangelogFile="true" file="1.0.0/1.0.0.2-room.xml"/>
     <include relativeToChangelogFile="true" file="1.0.0/1.0.0.3-room-booking.xml"/>
 
+    <!-- add data -->
+    <include relativeToChangelogFile="true" file="data/test-data.xml"/>
+
 </databaseChangeLog>

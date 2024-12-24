@@ -9,6 +9,6 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface RoomBookingMapper {
-    @Mapping(target = "userMail", source = "user.email")
+    @Mapping(target = "userMail", source = "acmeUser.email")
     RoomBookingDTO toDto(RoomBooking roomBooking);
 }

@@ -12,7 +12,7 @@
     <groupId>com.acme</groupId>
     <artifactId>rbs-backend</artifactId>
     <version>${revision}</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>rbs-backend</name>
 
     <properties>
@@ -21,6 +21,7 @@
 
         <springdoc.version>2.6.0</springdoc.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <lombok.version>1.18.34</lombok.version>
     </properties>
     <dependencies>
         <dependency>
@@ -48,6 +49,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+            <version>${lombok.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -83,6 +85,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
                         </path>
                         <path>
                             <groupId>org.hibernate</groupId>
@@ -107,6 +110,20 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <skip>false</skip>
+                    <from>
+                        <image>amazoncorretto:17-alpine-jdk</image>
+                    </from>
+                    <to>
+                        <image>${project.artifactId}</image>
+                    </to>
                 </configuration>
             </plugin>
         </plugins>

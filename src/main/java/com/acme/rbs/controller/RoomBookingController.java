@@ -5,6 +5,7 @@ import com.acme.rbs.dto.response.RoomBookingDTO;
 import com.acme.rbs.dto.response.RoomDTO;
 import com.acme.rbs.dto.response.pagination.PageDTO;
 import com.acme.rbs.service.roombooking.RoomBookingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +38,7 @@ public class RoomBookingController {
 
     //retrieve meeting room's bookings with room id and date as search params, default ordering start time asc
     @PostMapping(ROOM_BOOKING_LIST)
-    public ResponseEntity<PageDTO<RoomBookingDTO>> getRoomBookingsByCriteria(@RequestBody RoomBookingSearchDTO roomBookingSearchDTO) {
+    public ResponseEntity<PageDTO<RoomBookingDTO>> getRoomBookingsByCriteria(@Valid @RequestBody RoomBookingSearchDTO roomBookingSearchDTO) {
         return ResponseEntity.ok(roomBookingService.getRoomBookingsByCriteria(roomBookingSearchDTO));
     }
 }

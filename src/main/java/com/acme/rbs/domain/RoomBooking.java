@@ -46,8 +46,8 @@ public class RoomBooking {
     private Room room;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = User_.ID)
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = AcmeUser_.ID)
+    private AcmeUser acmeUser;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -73,7 +73,7 @@ public class RoomBooking {
                 ", bookingDate=" + bookingDate +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", user_id=" + user.getId() +
+                ", user_id=" + acmeUser.getId() +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

@@ -6,7 +6,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="1" author="acme" dbms="postgresql">
-        <createTable tableName="user">
+        <createTable tableName="acme_user">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -22,7 +22,7 @@
         </createTable>
 
         <rollback>
-            <dropTable tableName="user" cascadeConstraints="true"/>
+            <dropTable tableName="acme_user" cascadeConstraints="true"/>
         </rollback>
     </changeSet>
 

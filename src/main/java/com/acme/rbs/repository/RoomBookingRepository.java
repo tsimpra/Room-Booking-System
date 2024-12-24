@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Repository
 public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> {
 
-    Page<RoomBooking> findByBookingDateAndRoomName(LocalDate bookingDate, String roomName, Pageable pageable);
+    Page<RoomBooking> findByBookingDateAndRoomId(LocalDate bookingDate, Long roomId, Pageable pageable);
 
 
 }

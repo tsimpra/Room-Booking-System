@@ -44,23 +44,23 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     public PageDTO<RoomBookingDTO> getRoomBookingsByCriteria(RoomBookingSearchDTO roomBookingSearchDTO) {
         validate(roomBookingSearchDTO);
 
-        Page<RoomBooking> bookingDatesPage = roomBookingRepository.findByBookingDateAndRoomName(roomBookingSearchDTO.bookingDate(),
-                roomBookingSearchDTO.roomName(),
-                PageRequest.of(roomBookingSearchDTO.page(), roomBookingSearchDTO.size(), Sort.by(Sort.Order.asc(RoomBooking_.START_TIME))));
+        Page<RoomBooking> bookingDatesPage = roomBookingRepository.findByBookingDateAndRoomId(roomBookingSearchDTO.getBookingDate(),
+                roomBookingSearchDTO.getRoomId(),
+                PageRequest.of(roomBookingSearchDTO.getPage(), roomBookingSearchDTO.getSize(), Sort.by(Sort.Order.asc(RoomBooking_.START_TIME))));
 
         return PageUtils.pageDTOFactory(bookingDatesPage,
                 page -> page.stream().map(roomBookingMapper::toDto).toList());
     }
 
     private void validate(RoomBookingSearchDTO roomBookingSearchDTO) {
-        if (roomNameDoesNotExist(roomBookingSearchDTO.roomName())) {
-            String errorMsg = String.format("Room with name:%s does not exist", roomBookingSearchDTO.roomName());
+        if (roomNameDoesNotExist(roomBookingSearchDTO.getRoomId())) {
+            String errorMsg = String.format("Room with id:%s does not exist", roomBookingSearchDTO.getRoomId());
             log.error(errorMsg);
             throw new RoomNotFoundException(errorMsg);
         }
     }
 
-    private boolean roomNameDoesNotExist(String roomName) {
-        return !roomRepository.existsByName(roomName);
+    private boolean roomNameDoesNotExist(Long roomId) {
+        return !roomRepository.existsById(roomId);
     }
 }

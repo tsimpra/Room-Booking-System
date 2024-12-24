@@ -23,8 +23,8 @@ import java.time.ZoneOffset;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "user")
-public class User {
+@Table(name = "acme_user")
+public class AcmeUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
