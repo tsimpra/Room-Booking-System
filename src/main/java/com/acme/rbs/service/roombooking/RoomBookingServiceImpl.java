@@ -5,13 +5,14 @@ import com.acme.rbs.domain.RoomBooking_;
 import com.acme.rbs.domain.Room_;
 import com.acme.rbs.domain.mapper.RoomBookingMapper;
 import com.acme.rbs.domain.mapper.RoomMapper;
+import com.acme.rbs.dto.request.BookingRequest;
 import com.acme.rbs.dto.request.RoomBookingSearchDTO;
 import com.acme.rbs.dto.response.RoomBookingDTO;
 import com.acme.rbs.dto.response.RoomDTO;
 import com.acme.rbs.dto.response.pagination.PageDTO;
-import com.acme.rbs.exception.RoomNotFoundException;
 import com.acme.rbs.repository.RoomBookingRepository;
 import com.acme.rbs.repository.RoomRepository;
+import com.acme.rbs.service.validation.ValidationService;
 import com.acme.rbs.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     private final RoomBookingRepository roomBookingRepository;
     private final RoomMapper roomMapper;
     private final RoomBookingMapper roomBookingMapper;
+    private final ValidationService validationService;
 
     @Override
     public List<RoomDTO> getRoomsList() {
@@ -42,7 +44,7 @@ public class RoomBookingServiceImpl implements RoomBookingService {
 
     @Override
     public PageDTO<RoomBookingDTO> getRoomBookingsByCriteria(RoomBookingSearchDTO roomBookingSearchDTO) {
-        validate(roomBookingSearchDTO);
+        validationService.validateSearchRequest(roomBookingSearchDTO);
 
         Page<RoomBooking> bookingDatesPage = roomBookingRepository.findByBookingDateAndRoomId(roomBookingSearchDTO.getBookingDate(),
                 roomBookingSearchDTO.getRoomId(),
@@ -52,15 +54,16 @@ public class RoomBookingServiceImpl implements RoomBookingService {
                 page -> page.stream().map(roomBookingMapper::toDto).toList());
     }
 
-    private void validate(RoomBookingSearchDTO roomBookingSearchDTO) {
-        if (roomNameDoesNotExist(roomBookingSearchDTO.getRoomId())) {
-            String errorMsg = String.format("Room with id:%s does not exist", roomBookingSearchDTO.getRoomId());
-            log.error(errorMsg);
-            throw new RoomNotFoundException(errorMsg);
-        }
+    @Override
+    public RoomBookingDTO createRoomBooking(BookingRequest bookingRequest) {
+        validationService.validateBookingRequest(bookingRequest);
+        RoomBooking entity = roomBookingRepository.save(roomBookingMapper.fromRequest(bookingRequest));
+        return roomBookingMapper.toDto(entity);
     }
 
-    private boolean roomNameDoesNotExist(Long roomId) {
-        return !roomRepository.existsById(roomId);
+    @Override
+    public void cancelRoomBooking(Long roomBookingId) {
+        validationService.validateCancellationRequest(roomBookingId);
+        roomBookingRepository.deleteById(roomBookingId);
     }
 }

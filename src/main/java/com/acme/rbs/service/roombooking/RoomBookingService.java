@@ -1,5 +1,6 @@
 package com.acme.rbs.service.roombooking;
 
+import com.acme.rbs.dto.request.BookingRequest;
 import com.acme.rbs.dto.request.RoomBookingSearchDTO;
 import com.acme.rbs.dto.response.RoomBookingDTO;
 import com.acme.rbs.dto.response.RoomDTO;
@@ -13,4 +14,7 @@ public interface RoomBookingService {
 
     PageDTO<RoomBookingDTO> getRoomBookingsByCriteria(RoomBookingSearchDTO roomBookingSearchDTO);
 
+    RoomBookingDTO createRoomBooking(BookingRequest bookingRequest);
+
+    void cancelRoomBooking(Long roomBookingId);
 }

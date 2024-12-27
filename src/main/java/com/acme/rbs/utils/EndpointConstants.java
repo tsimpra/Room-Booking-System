@@ -13,6 +13,7 @@ public class EndpointConstants {
     public static final String ROOM_BOOKING = "/room-booking";
     public static final String ROOM_BOOKING_LIST = "/list";
     public static final String GET_ROOMS_LIST = "/rooms-list";
+    public static final String CANCEL_BOOKING = "/cancel";
 
 
 }
