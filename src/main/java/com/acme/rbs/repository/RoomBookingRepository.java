@@ -1,6 +1,7 @@
 package com.acme.rbs.repository;
 
 import com.acme.rbs.domain.RoomBooking;
+import com.acme.rbs.dto.response.RoomBookingDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +14,10 @@ import java.time.LocalTime;
 @Repository
 public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> {
 
-    Page<RoomBooking> findByBookingDateAndRoomId(LocalDate bookingDate, Long roomId, Pageable pageable);
+    @Query("select new com.acme.rbs.dto.response.RoomBookingDTO(rbk.id, rbk.bookingDate, rbk.startTime, rbk.endTime, aus.email) " +
+            "from RoomBooking rbk join AcmeUser aus on rbk.acmeUser.id = aus.id " +
+            "and rbk.bookingDate = :bookingDate and rbk.room.id = :roomId")
+    Page<RoomBookingDTO> findByBookingDateAndRoomId(LocalDate bookingDate, Long roomId, Pageable pageable);
 
     @Query("select case when count(rb.id) > 0 then true else false end from RoomBooking rb where " +
             "rb.startTime< :endTime and rb.endTime> :startTime " +

@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,12 +47,13 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     public PageDTO<RoomBookingDTO> getRoomBookingsByCriteria(RoomBookingSearchDTO roomBookingSearchDTO) {
         validationService.validateSearchRequest(roomBookingSearchDTO);
 
-        Page<RoomBooking> bookingDatesPage = roomBookingRepository.findByBookingDateAndRoomId(roomBookingSearchDTO.getBookingDate(),
+        Page<RoomBookingDTO> bookingDatesPage = roomBookingRepository.findByBookingDateAndRoomId(
+                roomBookingSearchDTO.getBookingDate(),
                 roomBookingSearchDTO.getRoomId(),
-                PageRequest.of(roomBookingSearchDTO.getPage(), roomBookingSearchDTO.getSize(), Sort.by(Sort.Order.asc(RoomBooking_.START_TIME))));
+                PageRequest.of(roomBookingSearchDTO.getPage(), roomBookingSearchDTO.getSize(),
+                        Sort.by(Sort.Order.asc(RoomBooking_.START_TIME))));
 
-        return PageUtils.pageDTOFactory(bookingDatesPage,
-                page -> page.stream().map(roomBookingMapper::toDto).toList());
+        return PageUtils.pageDTOFactory(bookingDatesPage, Streamable::toList);
     }
 
     @Override
