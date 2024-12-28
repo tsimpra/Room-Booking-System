@@ -49,7 +49,7 @@ public class RoomBookingController {
 
     //book a room
     @PostMapping
-    public ResponseEntity<RoomBookingDTO> getRoomBookingsByCriteria(@RequestBody BookingRequest bookingRequest) {
+    public ResponseEntity<RoomBookingDTO> getRoomBookingsByCriteria(@RequestBody @Valid BookingRequest bookingRequest) {
         return new ResponseEntity<>(roomBookingService.createRoomBooking(bookingRequest), HttpStatus.CREATED);
     }
 
