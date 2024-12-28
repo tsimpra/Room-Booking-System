@@ -94,17 +94,11 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     private boolean hasInvalidStartEndTime(BookingRequest bookingRequest) {
-        //if end time is not after return false
-        if (!bookingRequest.endTime().isAfter(bookingRequest.startTime())) {
-            return false;
-        }
-        //if end time minutes != start time minutes, it means that is not multiples of 1 hour
+        //if end time is not after return true
+        //if end time minutes != start time minutes, it means that is not multiples of 1 hour so return true
         //we also assume seconds are passed by FE as 00 or are irrelevant to our logic
-        if (bookingRequest.endTime().getMinute() != bookingRequest.startTime().getMinute()) {
-            return false;
-        }
-        //Since we have verified the minutes, we just need to verify that end time hours - start time hours >=1
-        return bookingRequest.endTime().getHour() - bookingRequest.startTime().getHour() < 1;
+        return !bookingRequest.endTime().isAfter(bookingRequest.startTime()) ||
+                bookingRequest.endTime().getMinute() != bookingRequest.startTime().getMinute();
     }
 
     private boolean isOverlappingAnotherBooking(BookingRequest bookingRequest) {
