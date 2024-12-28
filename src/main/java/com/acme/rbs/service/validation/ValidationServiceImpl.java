@@ -25,15 +25,18 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Override
     public void validateSearchRequest(RoomBookingSearchDTO roomBookingSearchDTO) {
+        log.debug("Triggering validation for RoomBookingSearchDTO: {}", roomBookingSearchDTO);
         if (roomNameDoesNotExist(roomBookingSearchDTO.getRoomId())) {
             String errorMsg = String.format("Room with id:%s does not exist", roomBookingSearchDTO.getRoomId());
             log.error(errorMsg);
             throw new RoomNotFoundException(errorMsg);
         }
+        log.debug("Validation successful");
     }
 
     @Override
     public void validateBookingRequest(BookingRequest bookingRequest) {
+        log.debug("Triggering validation for BookingRequest: {}", bookingRequest);
         if (userDoesNotExist(bookingRequest)) {
             String errorMsg = String.format("No user found with id:%s", bookingRequest.userId());
             log.error(errorMsg);
@@ -59,10 +62,12 @@ public class ValidationServiceImpl implements ValidationService {
             log.error(errorMsg);
             throw new BookingRequestException(errorMsg);
         }
+        log.debug("Validation successful");
     }
 
     @Override
     public void validateCancellationRequest(Long roomBookingId) {
+        log.debug("Triggering validation for Room Booking Cancellation with id: {}", roomBookingId);
         roomBookingRepository.findById(roomBookingId)
                 .ifPresent(roomBooking -> {
                     //improve logic with hours
@@ -72,6 +77,7 @@ public class ValidationServiceImpl implements ValidationService {
                         throw new CancellationException(errorMsg);
                     }
                 });
+        log.debug("Validation successful");
     }
 
     private boolean isBookingDatePriorToNow(BookingRequest bookingRequest) {
@@ -84,7 +90,7 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     private boolean userDoesNotExist(BookingRequest bookingRequest) {
-        return !acmeUserRepository.existsById(bookingRequest.userId());
+        return acmeUserRepository.findById(bookingRequest.userId()).isEmpty();
     }
 
     private boolean hasInvalidStartEndTime(BookingRequest bookingRequest) {

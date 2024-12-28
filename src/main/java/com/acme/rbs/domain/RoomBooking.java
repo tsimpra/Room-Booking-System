@@ -45,7 +45,7 @@ public class RoomBooking {
     @JoinColumn(name = "room_id", nullable = false, referencedColumnName = Room_.ID)
     private Room room;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = AcmeUser_.ID)
     private AcmeUser acmeUser;
 

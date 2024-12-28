@@ -38,6 +38,10 @@ public class Room {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    public Room(Long id) {
+        this.id = id;
+    }
+
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now(ZoneOffset.UTC);

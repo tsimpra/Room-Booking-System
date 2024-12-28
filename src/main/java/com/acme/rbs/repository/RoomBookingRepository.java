@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Repository
 public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> {
 
-    @Query("select new com.acme.rbs.dto.response.RoomBookingDTO(rbk.id, rbk.bookingDate, rbk.startTime, rbk.endTime, aus.email) " +
+    @Query("select new com.acme.rbs.dto.response.RoomBookingDTO(rbk.id, rbk.bookingDate, rbk.startTime, rbk.endTime, aus.id, aus.email) " +
             "from RoomBooking rbk join AcmeUser aus on rbk.acmeUser.id = aus.id " +
             "and rbk.bookingDate = :bookingDate and rbk.room.id = :roomId")
     Page<RoomBookingDTO> findByBookingDateAndRoomId(LocalDate bookingDate, Long roomId, Pageable pageable);

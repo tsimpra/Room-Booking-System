@@ -47,6 +47,7 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     public PageDTO<RoomBookingDTO> getRoomBookingsByCriteria(RoomBookingSearchDTO roomBookingSearchDTO) {
         validationService.validateSearchRequest(roomBookingSearchDTO);
 
+        log.info("Querying room bookings with payload: {}", roomBookingSearchDTO);
         Page<RoomBookingDTO> bookingDatesPage = roomBookingRepository.findByBookingDateAndRoomId(
                 roomBookingSearchDTO.getBookingDate(),
                 roomBookingSearchDTO.getRoomId(),
@@ -59,13 +60,17 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     @Override
     public RoomBookingDTO createRoomBooking(BookingRequest bookingRequest) {
         validationService.validateBookingRequest(bookingRequest);
+        log.info("Persisting into database BookingRequest: {}", bookingRequest);
         RoomBooking entity = roomBookingRepository.save(roomBookingMapper.fromRequest(bookingRequest));
+        log.info("Entity was persisted successfully");
         return roomBookingMapper.toDto(entity);
     }
 
     @Override
     public void cancelRoomBooking(Long roomBookingId) {
         validationService.validateCancellationRequest(roomBookingId);
+        log.info("Removing Room booking with id: {}", roomBookingId);
         roomBookingRepository.deleteById(roomBookingId);
+        log.info("Room Booking has been removed successfully");
     }
 }
