@@ -1,5 +1,6 @@
 package com.acme.rbs.service.roombooking;
 
+import com.acme.rbs.domain.Room;
 import com.acme.rbs.domain.RoomBooking;
 import com.acme.rbs.domain.RoomBooking_;
 import com.acme.rbs.domain.Room_;
@@ -10,6 +11,7 @@ import com.acme.rbs.domain.mapper.RoomMapperImpl;
 import com.acme.rbs.dto.request.BookingRequest;
 import com.acme.rbs.dto.request.RoomBookingSearchDTO;
 import com.acme.rbs.dto.response.RoomBookingDTO;
+import com.acme.rbs.dto.response.RoomDTO;
 import com.acme.rbs.repository.RoomBookingRepository;
 import com.acme.rbs.repository.RoomRepository;
 import com.acme.rbs.service.validation.ValidationService;
@@ -47,14 +49,17 @@ class RoomBookingServiceImplTest {
 
     @Test
     void getRoomsList() {
+        //init
+        Room room = new Room();
         //mock functionality
-        when(roomRepository.findAll(Sort.by(Sort.Order.asc(Room_.NAME)))).thenReturn(List.of());
+        when(roomRepository.findAll(Sort.by(Sort.Order.asc(Room_.NAME)))).thenReturn(List.of(room));
 
         //trigger
-        roomBookingService.getRoomsList();
+        List<RoomDTO> roomsList = roomBookingService.getRoomsList();
 
         //verify
         verify(roomRepository, times(1)).findAll(Sort.by(Sort.Order.asc(Room_.NAME)));
+        verify(roomMapper, times(roomsList.size())).toDto(room);
     }
 
     @Test
