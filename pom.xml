@@ -16,7 +16,7 @@
     <name>rbs-backend</name>
 
     <properties>
-        <revision>1.0.0-SNAPSHOT</revision>
+        <revision>1.0.0</revision>
         <java.version>17</java.version>
 
         <springdoc.version>2.6.0</springdoc.version>
