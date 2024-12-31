@@ -1,0 +1,80 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <!-- Insert data into the acme_user table -->
+    <changeSet id="insert-users-1" author="acme" dbms="postgresql">
+        <insert tableName="acme_user">
+            <column name="first_name" value="John"/>
+            <column name="last_name" value="Doe"/>
+            <column name="email" value="john.doe@example.com"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="acme_user">
+            <column name="first_name" value="Jane"/>
+            <column name="last_name" value="Smith"/>
+            <column name="email" value="jane.smith@example.com"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="acme_user">
+            <column name="first_name" value="Alice"/>
+            <column name="last_name" value="Johnson"/>
+            <column name="email" value="alice.johnson@example.com"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="acme_user">
+            <column name="first_name" value="Bob"/>
+            <column name="last_name" value="Brown"/>
+            <column name="email" value="bob.brown@example.com"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="acme_user">
+            <column name="first_name" value="Charlie"/>
+            <column name="last_name" value="Davis"/>
+            <column name="email" value="charlie.davis@example.com"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert data into the room table -->
+    <changeSet id="insert-rooms-2" author="acme" dbms="postgresql">
+        <insert tableName="room">
+            <column name="name" value="Blue Sky"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="room">
+            <column name="name" value="Yellow Tulip"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="room">
+            <column name="name" value="Black Eight"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="room">
+            <column name="name" value="Red Cross"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+        <insert tableName="room">
+            <column name="name" value="Green Field"/>
+            <column name="created_at" valueDate="NOW()"/>
+            <column name="updated_at" valueDate="NOW()"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert 50 rows into the room_booking table -->
+    <changeSet id="insert-room-bookings-3" author="acme" dbms="postgresql">
+        <sqlFile path="./db/changelog/data/room-bookings.sql" splitStatements="false"/>
+    </changeSet>
+
+</databaseChangeLog>

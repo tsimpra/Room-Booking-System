@@ -1,0 +1,38 @@
+services:
+  app:
+    image: rbs-backend
+    container_name: rbs-backend-app
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/room_booking_system
+      SPRING_DATASOURCE_USERNAME: room_booking_system
+      SPRING_DATASOURCE_PASSWORD: room_booking_system
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    networks:
+      - rbs-network
+
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: room_booking_system
+      POSTGRES_USER: room_booking_system
+      POSTGRES_PASSWORD: room_booking_system
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U room_booking_system -d room_booking_system" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rbs-network
+
+networks:
+  rbs-network:
+    driver: bridge
